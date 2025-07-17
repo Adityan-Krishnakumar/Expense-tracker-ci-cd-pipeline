@@ -26,9 +26,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt # Install dependencies from requirements.txt
 
-    - name: Run tests
+    - name: Run test
       run: |
-        pytest tests/  # Execute your pytest tests
+        pytest test/  # Execute your pytest tests
 
     - name: Build Docker image
       run: |
