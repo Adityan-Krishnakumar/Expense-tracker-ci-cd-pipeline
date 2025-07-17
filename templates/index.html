@@ -3,45 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Expense Tracker</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
-        h1 { color: #333; }
-        form { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        input[type="text"], input[type="number"] { width: calc(100% - 22px); padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; }
-        button { background-color: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; }
-        button:hover { background-color: #0056b3; }
-        ul { list-style: none; padding: 0; }
-        li { background: #fff; padding: 10px; border-radius: 4px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        li span:first-child { font-weight: bold; }
-        .clear-button { background-color: #dc3545; }
-        .clear-button:hover { background-color: #c82333; }
-    </style>
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1>Simple Expense Tracker</h1>
-
-    <form action="/add" method="POST">
-        <input type="text" name="item" placeholder="Expense Item (e.g., Groceries)" required>
-        <input type="number" name="amount" placeholder="Amount (e.g., 50.75)" step="0.01" required>
-        <button type="submit">Add Expense</button>
-    </form>
-
-    <h2>Your Expenses</h2>
-    <ul>
-        {% if expenses %}
-            {% for expense in expenses %}
-                <li>
-                    <span>{{ expense.item }}</span>
-                    <span>₹{{ "%.2f"|format(expense.amount) }}</span>
-                </li>
-            {% endfor %}
-        {% else %}
-            <li>No expenses added yet.</li>
-        {% endif %}
-    </ul>
-
-    <form action="/clear" method="GET">
+    <div class="container">
+        <h1>Expense Tracker</h1>
+        <h2>Add New Expense</h2>
+        <form action="/add" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" step="0.01" required><br><br>
+            <button type="submit">Add Expense</button>
+        </form>
+        <h2>Expenses</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {# Loop through the 'expenses' list passed from the Flask app #}
+                {% for expense in expenses %}
+                <tr>
+                    <td>{{ expense.name }}</td>
+                    {# Format amount to two decimal places #}
+                    <td>{{ "%.2f"|format(expense.amount) }}</td> 
+                    <td>
+                        {# You can add delete/edit buttons here later if needed #}
+                        </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3">No expenses added yet.</td> {# Message when expenses list is empty #}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <form action="/clear" method="GET"> {# Using GET for simplicity, consider POST for production #}
         <button type="submit" class="clear-button">Clear All Expenses</button>
     </form>
 
