@@ -58,3 +58,4 @@ def test_clear_expenses(client):
 
     # Optional: Also verify the global expenses list is empty
     # assert len(expenses) == 0
+    # End of test file - dummy change
