@@ -16,8 +16,7 @@ def test_add_expense(client):
     # Send a POST request to the /add endpoint with form data
     # follow_redirects=True tells the test client to automatically follow any HTTP redirects
     # that the Flask app might issue after processing the form (e.g., redirecting to '/')
-    response = client.post('/add', data={'name': 'Groceries', 'amount': '50.00'}, follow_redirects=True)
-    
+    response = client.post('/add', form={'name': 'Groceries', 'amount': '50.00'}, follow_redirects=True)
     # After following redirects, the final page should be the main page (index.html),
     # which typically returns a 200 OK status code.
     assert response.status_code == 200
@@ -35,8 +34,8 @@ def test_add_expense(client):
 # Test case for clearing all expenses
 def test_clear_expenses(client):
     # First, add some expenses to ensure there's something to clear
-    client.post('/add', data={'name': 'Test Item 1', 'amount': '10.00'}, follow_redirects=True)
-    client.post('/add', data={'name': 'Test Item 2', 'amount': '20.00'}, follow_redirects=True)
+    client.post('/add', form={'name': 'Test Item 1', 'amount': '10.00'}, follow_redirects=True)
+    client.post('/add', form={'name': 'Test Item 2', 'amount': '20.00'}, follow_redirects=True)
 
     # Verify they are present before clearing (optional, but good for robust testing)
     initial_response = client.get('/', follow_redirects=True)
